@@ -7,10 +7,8 @@ sys.path.insert(0, 'openmoc')
 import openmoc
 
 
-class InputSet(object):
+class InputSet(object, metaclass=ABCMeta):
     """An abstract class for defining OpenMOC test geometries."""
-
-    __metaclass__ = ABCMeta
 
     def __init__(self):
         self.materials = {}

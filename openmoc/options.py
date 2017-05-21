@@ -4,7 +4,7 @@ import multiprocessing
 
 # For Python 2.X.X
 if sys.version_info[0] == 2:
-    from log import py_printf
+    from .log import py_printf
 # For Python 3.X.X
 else:
     from openmoc.log import py_printf
@@ -142,9 +142,9 @@ class Options(object):
             # Print a report of all supported runtime options and exit
             if opt in ('-h', '--help'):
 
-                print('{:-^80}'.format(''))
-                print('{: ^80}'.format('OpenMOC v.0.1.1 runtime options'))
-                print('{:-^80}'.format(''))
+                print(('{:-^80}'.format('')))
+                print(('{: ^80}'.format('OpenMOC v.0.1.1 runtime options')))
+                print(('{:-^80}'.format('')))
                 print('')
 
                 help_msg = '\t{: <35}'.format('-h, --help')

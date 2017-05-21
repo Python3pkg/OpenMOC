@@ -13,11 +13,12 @@ import numpy as np
 import h5py
 
 import openmoc
+from functools import reduce
 
 # For Python 2.X.X
 if (sys.version_info[0] == 2):
-    from log import *
-    import checkvalue as cv
+    from .log import *
+    from . import checkvalue as cv
 # For Python 3.X.X
 else:
     from openmoc.log import *
@@ -28,7 +29,7 @@ solver_types = (openmoc.Solver,)
 try:
     # Try to import OpenMOC's CUDA module
     if (sys.version_info[0] == 2):
-        from cuda import GPUSolver
+        from .cuda import GPUSolver
     else:
         from openmoc.cuda import GPUSolver
     solver_types += (GPUSolver,)
@@ -36,7 +37,7 @@ except ImportError:
     pass
 
 if sys.version_info[0] >= 3:
-    basestring = str
+    str = str
 
 
 def get_scalar_fluxes(solver, fsrs='all', groups='all'):
@@ -70,12 +71,12 @@ def get_scalar_fluxes(solver, fsrs='all', groups='all'):
     global solver_types
     cv.check_type('solver', solver, solver_types)
 
-    if isinstance('fsrs', basestring):
+    if isinstance('fsrs', str):
         cv.check_value('fsrs', fsrs, 'all')
     else:
         cv.check_type('fsrs', Iterable, Integral)
 
-    if isinstance('groups', basestring):
+    if isinstance('groups', str):
         cv.check_value('groups', fsrs, 'all')
     else:
         cv.check_type('groups', Iterable, Integral)
@@ -203,7 +204,7 @@ def compute_fission_rates(solver, use_hdf5=False):
     if use_hdf5:
         f = h5py.File(directory + filename + '.h5', 'w')
         fission_rates_group = f.create_group('fission-rates')
-        for key, value in fission_rates_sum.items():
+        for key, value in list(fission_rates_sum.items()):
             fission_rates_group.attrs[key] = value
         f.close()
 
@@ -287,10 +288,10 @@ def store_simulation_state(solver, fluxes=False, sources=False,
     cv.check_type('sources', sources, bool)
     cv.check_type('fission_rates', fission_rates, bool)
     cv.check_type('use_hdf5', use_hdf5, bool)
-    cv.check_type('filename', filename, basestring)
-    cv.check_type('directory', directory, basestring)
+    cv.check_type('filename', filename, str)
+    cv.check_type('directory', directory, str)
     cv.check_type('append', append, bool)
-    cv.check_type('note', note, basestring)
+    cv.check_type('note', note, str)
 
     # Make directory if it does not exist
     if not os.path.exists(directory):
@@ -397,7 +398,7 @@ def store_simulation_state(solver, fluxes=False, sources=False,
         # write simulation state at the exact same hour,minute, and second
         time_key = '{0:02}:{1:02}:{2:02}'.format(hr, mins, sec)
         counter = 0
-        while time_key in day_group.keys():
+        while time_key in list(day_group.keys()):
             time_key = '{0:02}:{1:02}:{2:02}-{3}'.format(hr, mins, sec, counter)
             counter += 1
 
@@ -460,7 +461,7 @@ def store_simulation_state(solver, fluxes=False, sources=False,
         time = str(hr).zfill(2)+':'+str(mins).zfill(2)+':'+str(sec).zfill(2)
 
         # Create dictionaries for this day and time within the pickled file
-        if not day in sim_states.keys():
+        if not day in list(sim_states.keys()):
             sim_states[day] = {}
 
         sim_states[day][time] = {}
@@ -566,8 +567,8 @@ def restore_simulation_state(filename='simulation-state.h5',
 
     """
 
-    cv.check_type('filename', filename, basestring)
-    cv.check_type('directory', directory, basestring)
+    cv.check_type('filename', filename, str)
+    cv.check_type('directory', directory, str)
 
     filename = directory + '/' + filename
     if not os.path.isfile(filename):
@@ -585,7 +586,7 @@ def restore_simulation_state(filename='simulation-state.h5',
         states = {}
 
         # Loop over all simulation state timestamps by day
-        for day in f.keys():
+        for day in list(f.keys()):
 
             # Create sub-dictionary for this day
             states[day] = {}
@@ -692,8 +693,8 @@ def parse_convergence_data(filename, directory=''):
 
     """
 
-    cv.check_type('filename', filename, basestring)
-    cv.check_type('directory', directory, basestring)
+    cv.check_type('filename', filename, str)
+    cv.check_type('directory', directory, str)
 
     # If the user specified a directory
     if len(directory) > 0:

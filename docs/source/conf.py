@@ -37,8 +37,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'OpenMOC'
-copyright = u'2012-2014, Massachusetts Institute of Technology'
+project = 'OpenMOC'
+copyright = '2012-2014, Massachusetts Institute of Technology'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -184,8 +184,8 @@ htmlhelp_basename = 'openmocdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'openmoc.tex', u'OpenMOC Documentation',
-   u'Massachusetts Institute of Technology', 'manual'),
+  ('index', 'openmoc.tex', 'OpenMOC Documentation',
+   'Massachusetts Institute of Technology', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

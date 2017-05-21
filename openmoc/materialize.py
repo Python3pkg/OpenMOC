@@ -10,15 +10,15 @@ import openmoc
 
 # For Python 2.X.X
 if sys.version_info[0] == 2:
-    from log import py_printf
-    import checkvalue as cv
+    from .log import py_printf
+    from . import checkvalue as cv
 # For Python 3.X.X
 else:
     from openmoc.log import py_printf
     import openmoc.checkvalue as cv
 
 if sys.version_info[0] >= 3:
-    basestring = str
+    str = str
 
 
 def _get_domain(domains, domain_spec):
@@ -29,8 +29,8 @@ def _get_domain(domains, domain_spec):
         return domains[domain_spec]
 
     # If domain_spec is a string, it must be a domain name
-    elif isinstance(domain_spec, basestring):
-        for domain_id, domain in domains.items():
+    elif isinstance(domain_spec, str):
+        for domain_id, domain in list(domains.items()):
             if domain_spec == domain.getName():
                 return domain
 
@@ -80,10 +80,10 @@ def load_from_hdf5(filename='mgxs.h5', directory='mgxs',
 
     """
 
-    cv.check_type('filename', filename, basestring)
-    cv.check_type('directory', directory, basestring)
+    cv.check_type('filename', filename, str)
+    cv.check_type('directory', directory, str)
     cv.check_value('domain_type', domain_type, ('material', 'cell'))
-    cv.check_type('suffix', suffix, basestring)
+    cv.check_type('suffix', suffix, str)
     if geometry:
         cv.check_type('geometry', geometry, openmoc.Geometry)
 
@@ -97,7 +97,7 @@ def load_from_hdf5(filename='mgxs.h5', directory='mgxs',
         py_printf('ERROR', 'Unable to load HDF5 file "%s" since it does '
                   'not contain an \'# groups\' attribute', filename)
 
-    if domain_type not in f.keys():
+    if domain_type not in list(f.keys()):
         py_printf('ERROR', 'Unable to load HDF5 file "%s" since it does '
                   'not contain domain type "%s"', filename, domain_type)
 
@@ -509,7 +509,7 @@ def compute_sph_factors(mgxs_lib, max_sph_iters=30, sph_tol=1E-5,
 
     # For Python 2.X.X
     if sys.version_info[0] == 2:
-        from process import get_scalar_fluxes
+        from .process import get_scalar_fluxes
     # For Python 3.X.X
     else:
         from openmoc.process import get_scalar_fluxes

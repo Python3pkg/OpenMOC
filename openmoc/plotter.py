@@ -19,9 +19,9 @@ import openmoc
 
 # For Python 2.X.X
 if (sys.version_info[0] == 2):
-    from log import *
-    from process import get_scalar_fluxes
-    import checkvalue as cv
+    from .log import *
+    from .process import get_scalar_fluxes
+    from . import checkvalue as cv
 # For Python 3.X.X
 else:
     from openmoc.log import *
@@ -33,7 +33,7 @@ solver_types = (openmoc.Solver,)
 try:
     # Try to import OpenMOC's CUDA module
     if (sys.version_info[0] == 2):
-        from cuda import GPUSolver
+        from .cuda import GPUSolver
     else:
         from openmoc.cuda import GPUSolver
     solver_types += (GPUSolver,)
@@ -49,7 +49,7 @@ subdirectory = "/plots/"
 TINY_MOVE = openmoc.TINY_MOVE
 
 if sys.version_info[0] >= 3:
-    basestring = str
+    str = str
 
 
 def plot_tracks(track_generator, get_figure=False):
@@ -420,7 +420,7 @@ def plot_flat_source_regions(geometry, gridsize=250, xlim=None, ylim=None,
 
     cv.check_type('geometry', geometry, openmoc.Geometry)
     cv.check_type('centroids', centroids, bool)
-    cv.check_type('marker_type', marker_type, basestring)
+    cv.check_type('marker_type', marker_type, str)
     cv.check_value('marker_type', marker_type,
                    tuple(matplotlib.markers.MarkerStyle().markers.keys()))
     cv.check_type('marker_size', marker_size, Real)
@@ -1441,12 +1441,12 @@ class PlotParams(object):
 
     @filename.setter
     def filename(self, filename):
-        cv.check_type('filename', filename, basestring)
+        cv.check_type('filename', filename, str)
         self._filename = filename
 
     @extension.setter
     def extension(self, extension):
-        cv.check_type('extension', extension, basestring)
+        cv.check_type('extension', extension, str)
         self._extension = extension
 
     @library.setter
@@ -1487,12 +1487,12 @@ class PlotParams(object):
 
     @title.setter
     def title(self, title):
-        cv.check_type('title', title, basestring)
+        cv.check_type('title', title, str)
         self._title = title
 
     @suptitle.setter
     def suptitle(self, suptitle):
-        cv.check_type('suptitle', suptitle, basestring)
+        cv.check_type('suptitle', suptitle, str)
         self._suptitle = suptitle
 
     @norm.setter
@@ -1507,7 +1507,7 @@ class PlotParams(object):
 
     @interpolation.setter
     def interpolation(self, interpolation):
-        cv.check_type('interpolation', interpolation, basestring)
+        cv.check_type('interpolation', interpolation, str)
         self._interpolation = interpolation
 
     @cmap.setter

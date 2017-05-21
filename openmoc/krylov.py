@@ -6,8 +6,8 @@ import openmoc
 
 # For Python 2.X.X
 if sys.version_info[0] == 2:
-    from log import py_printf
-    import checkvalue as cv
+    from .log import py_printf
+    from . import checkvalue as cv
 # For Python 3.X.X
 else:
     from openmoc.log import py_printf

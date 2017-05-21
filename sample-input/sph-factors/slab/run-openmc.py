@@ -161,7 +161,7 @@ mgxs_lib.energy_groups = groups
 mgxs_lib.mgxs_types = ['total', 'nu-fission', 'nu-scatter matrix', 'chi']
 mgxs_lib.domain_type = 'cell'
 mgxs_lib.correction = None
-mgxs_lib.domains = openmc_geometry.get_all_material_cells().values()
+mgxs_lib.domains = list(openmc_geometry.get_all_material_cells().values())
 mgxs_lib.build_library()
 
 # Create a "tallies.xml" file for the MGXS Library

@@ -435,7 +435,7 @@ class configuration:
 
     # Add the NumPy include directory to the include directories
     # list for each type of compiler
-    for cc in self.include_directories.keys():
+    for cc in list(self.include_directories.keys()):
       self.include_directories[cc].append(numpy_include)
 
 

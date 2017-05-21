@@ -6,7 +6,7 @@ import numpy as np
 
 # For Python 2.X.X
 if (sys.version_info[0] == 2):
-    from log import *
+    from .log import *
 # For Python 3.X.X
 else:
     from openmoc.log import *
